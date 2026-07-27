@@ -17,7 +17,7 @@ SnapClass is a multi-modal, AI-powered classroom attendance application. It leve
 
 ## 📂 Project Architecture
 
-<pre>
+
 ## 🧠 System Architecture
 
 ```mermaid
@@ -72,7 +72,6 @@ else Score < Threshold
 UI-->>Student: ❌ Failed: Identity Not Verified
 end
 ```
-</pre>
 
 ```text
 snapclass/
