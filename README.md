@@ -16,6 +16,64 @@ SnapClass is a multi-modal, AI-powered classroom attendance application. It leve
 * **Database & Auth:** Supabase Python SDK
 
 ## 📂 Project Architecture
+
+<pre>
+## 🧠 System Architecture
+
+```mermaid
+graph TD
+subgraph Frontend
+UI[Streamlit Web App]
+QR[Segno QR Generator]
+end
+
+subgraph Biometric AI Engine
+FACE[Face Pipeline: Dlib + SVC]
+VOICE[Voice Pipeline: Resemblyzer + Librosa]
+end
+
+subgraph Cloud Database
+DB[(Supabase PostgreSQL)]
+VEC[Vector Embeddings]
+LOGS[Attendance Logs]
+end
+
+UI -->|Captures Image/Audio| FACE
+UI -->|Captures Image/Audio| VOICE
+UI -->|Generates Session| QR
+
+FACE -->|Extracts 128D Features| VEC
+VOICE -->|Extracts 256D Features| VEC
+
+FACE -->|Verifies Identity| DB
+VOICE -->|Verifies Identity| DB
+DB -->|Records Success| LOGS
+```
+
+## 🔄 Biometric Verification Flow
+
+```mermaid
+sequenceDiagram
+participant Student
+participant UI as Streamlit App
+participant AI as ML Pipeline
+participant DB as Supabase
+
+Student->>UI: Enters ID & Captures Face/Voice
+UI->>AI: Sends Media Buffer
+AI->>AI: Extracts Embeddings (128D/256D)
+AI->>DB: Fetches Known Student Embeddings
+AI-->>UI: Returns Confidence Score
+
+alt Score >= Threshold (e.g., 0.75)
+UI->>DB: Logs Attendance Record
+UI-->>Student: ✅ Success: Attendance Marked
+else Score < Threshold
+UI-->>Student: ❌ Failed: Identity Not Verified
+end
+```
+</pre>
+
 ```text
 snapclass/
 ├── app.py                              # Main Streamlit application & router
@@ -30,3 +88,7 @@ snapclass/
     └── pipelines/
         ├── face_pipeline.py            # Dlib + SVC facial recognition engine
         └── voice_pipeline.py           # Resemblyzer audio processing engine
+
+
+
+
