@@ -1,0 +1,20 @@
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+macOS/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Large ML Models (Do not upload these to GitHub)
+models/*.dat
+models/*.bz2
+
+# Streamlit
+.streamlit/
